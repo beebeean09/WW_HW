@@ -1,17 +1,17 @@
-##READ ME
+## READ ME
 1. Run npm install
 2. Run webpack
 3. Open index.html
 
-##Structure
+## Structure
 
-#List of Components
+# List of Components
 - Navbar Component
 - Home Component
 - Subreddit Component
 - SubmitForm Component
 
-#Description
+# Description
 
 If I were to do this project again, I would have used a Redux along with React. I believe it would have been easier to add/edit/update and also it'll allow the ability to store the current state.
 
