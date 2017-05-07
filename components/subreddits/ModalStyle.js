@@ -18,7 +18,6 @@ const ModalStyle = {
     borderRadius          : '20px',
     background            : '#5087b7',
     color                 : '#ffffff',
-
   }
 };
 
