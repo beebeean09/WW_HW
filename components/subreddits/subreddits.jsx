@@ -8,7 +8,8 @@ class Subreddits extends React.Component {
     super(props);
 
     this.state = {
-      subreddits: null
+      subreddits: null,
+      posts: null
      };
 
     this.getSubreddits = this.getSubreddits.bind(this);
@@ -27,12 +28,34 @@ class Subreddits extends React.Component {
       if (req.status === 200 && req.readyState === XMLHttpRequest.DONE) {
         const data = JSON.parse(req.responseText);
         const subreddits = data.data.children;
+        const posts = subreddits.map(el => el.data.url);
+        // console.log(posts);
+        this.getSubredditsPosts(posts);
+        // console.log(subreddits);
         this.setState({subreddits: subreddits});
       }
     };
 
     req.open('GET', 'https://www.reddit.com/subreddits.json', true);
     req.send();
+  }
+
+  getSubredditsPosts(posts) {
+    posts.forEach(post => {
+      const req = new XMLHttpRequest();
+      const subredditsHash = {};
+      debugger;
+      req.onreadystatechange = () => {
+        if (req.status === 200 && req.readyState === XMLHttpRequest.DONE) {
+          const dataPosts = JSON.parse(req.responseText);
+          subredditsHash[post] = dataPosts.data.children;
+          console.log(subredditsHash);
+        }
+      };
+
+      req.open('GET', `https://www.reddit.com/${post}/.json`, true);
+      req.send();
+    });
   }
 
   addSubreddit(subReddit) {
@@ -63,7 +86,7 @@ class Subreddits extends React.Component {
 
   render() {
     const subreddits = this.state.subreddits;
-    
+
     const listSubReds = (subreddits) ?
       subreddits.map((subRed, idx) =>
         <div key={idx}>
