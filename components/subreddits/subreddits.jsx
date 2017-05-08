@@ -2,6 +2,7 @@ import React from 'react';
 import SubmitForm from './add_subreddit';
 import Modal from 'react-modal';
 import ModalStyle from './ModalStyle';
+import Posts from './posts';
 
 class Subreddits extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Subreddits extends React.Component {
     this.addSubreddit = this.addSubreddit.bind(this);
     this.editSubreddit = this.editSubreddit.bind(this);
     this.deleteSubreddit = this.deleteSubreddit.bind(this);
+    this.openPosts = this.openPosts.bind(this);
   }
 
   componentDidMount() {
@@ -112,22 +114,16 @@ class Subreddits extends React.Component {
 
     debugger;
     // <div></div>
-    const listPosts = (posts) ?
-    posts.map((post, idx) =>
-    <div className="postContainer" style={{statusPosts}} key={idx}>
-      <div className="post">
-        Test
-      </div>
-    </div>
-  ) : <div></div>;
+
 
     const listSubReds = (subreddits) ?
       subreddits.map((subRed, idx) =>
         <div key={idx}>
+          <div className="hide">{subredditsKeys.push(subRed)}</div>
           <div className="subredditContainer">
             <div className="header">
               <div className="headerLeft">
-                <a onClick={this.openPosts.bind(this)}><h1>{subRed.data.title}</h1></a>
+                <a onClick={this.openPosts}><h1>{subRed.data.title}</h1></a>
                 <ul>{subRed.data.public_description}</ul>
               </div>
               <div className="headerRight">
@@ -141,10 +137,17 @@ class Subreddits extends React.Component {
               </div>
             </div>
           </div>
-          {listPosts}
+          <Posts
+            posts={posts}
+            subredditsKeys={subredditsKeys}
+            statusPosts={statusPosts}/>
         </div>
       ) : <div></div>;
 
+      // <Posts
+      //   subredditsKeys={subredditsKeys}
+      //   statusPosts={statusPosts}
+      //   posts={posts}/>
 
     return(
       <div className="mainContainer">
