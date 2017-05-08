@@ -15594,17 +15594,18 @@ var Subreddits = function (_React$Component) {
       var subreddits = this.state.subreddits;
       var posts = this.state.posts;
       var subredditsKeys = [];
-      var statusPosts = this.state.showPosts === false ? 'display: none' : 'display: block';
+      var statusPosts = this.state.showPosts === false ? 'display: none' : 'display: flex';
 
       debugger;
+      // <div></div>
       var listPosts = posts ? posts.map(function (post, idx) {
         return _react2.default.createElement(
           'div',
-          { style: { statusPosts: statusPosts }, key: idx },
+          { className: 'postContainer', style: { statusPosts: statusPosts }, key: idx },
           _react2.default.createElement(
             'div',
-            null,
-            'Hello'
+            { className: 'post' },
+            'Test'
           )
         );
       }) : _react2.default.createElement('div', null);

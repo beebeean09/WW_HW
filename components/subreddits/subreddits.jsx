@@ -108,14 +108,15 @@ class Subreddits extends React.Component {
     const subreddits = this.state.subreddits;
     const posts = this.state.posts;
     const subredditsKeys = [];
-    const statusPosts = this.state.showPosts === false ? 'display: none' : 'display: block';
+    const statusPosts = this.state.showPosts === false ? 'display: none' : 'display: flex';
 
     debugger;
+    // <div></div>
     const listPosts = (posts) ?
     posts.map((post, idx) =>
-    <div style={{statusPosts}} key={idx}>
-      <div>
-        Hello
+    <div className="postContainer" style={{statusPosts}} key={idx}>
+      <div className="post">
+        Test
       </div>
     </div>
   ) : <div></div>;
