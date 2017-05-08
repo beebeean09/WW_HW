@@ -15476,7 +15476,8 @@ var Subreddits = function (_React$Component) {
 
     _this.state = {
       subreddits: null,
-      posts: null
+      posts: null,
+      showPosts: false
     };
 
     _this.getSubreddits = _this.getSubreddits.bind(_this);
@@ -15506,7 +15507,7 @@ var Subreddits = function (_React$Component) {
           });
           // console.log(posts);
           _this2.getSubredditsPosts(posts);
-          // console.log(subreddits);
+          console.log(subreddits);
           _this2.setState({ subreddits: subreddits });
         }
       };
@@ -15515,23 +15516,39 @@ var Subreddits = function (_React$Component) {
       req.send();
     }
   }, {
+    key: 'splitPost',
+    value: function splitPost(post) {
+      return post.split('/')[2];
+    }
+  }, {
     key: 'getSubredditsPosts',
     value: function getSubredditsPosts(posts) {
-      posts.forEach(function (post) {
+      var _this3 = this;
+
+      var subredditsPosts = [];
+
+      posts.forEach(function (post, idx) {
         var req = new XMLHttpRequest();
         var subredditsHash = {};
-        debugger;
+
+        // debugger;
         req.onreadystatechange = function () {
           if (req.status === 200 && req.readyState === XMLHttpRequest.DONE) {
             var dataPosts = JSON.parse(req.responseText);
-            subredditsHash[post] = dataPosts.data.children;
-            console.log(subredditsHash);
+
+            var postTitle = _this3.splitPost(post);
+            subredditsHash[postTitle] = dataPosts.data.children;
+            subredditsPosts.push(subredditsHash);
+            // console.log(subredditsPostsHash);
           }
         };
 
         req.open('GET', 'https://www.reddit.com/' + post + '/.json', true);
         req.send();
       });
+      // debugger;
+      console.log(subredditsPosts);
+      this.setState({ posts: subredditsPosts });
     }
   }, {
     key: 'addSubreddit',
@@ -15563,11 +15580,34 @@ var Subreddits = function (_React$Component) {
       this.setState({ subReddits: allSubreddits });
     }
   }, {
+    key: 'openPosts',
+    value: function openPosts(e) {
+      debugger;
+      e.preventDefault();
+      this.setState({ showPosts: true });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var subreddits = this.state.subreddits;
+      var posts = this.state.posts;
+      var subredditsKeys = [];
+      var statusPosts = this.state.showPosts === false ? 'display: none' : 'display: block';
+
+      debugger;
+      var listPosts = posts ? posts.map(function (post, idx) {
+        return _react2.default.createElement(
+          'div',
+          { style: { statusPosts: statusPosts }, key: idx },
+          _react2.default.createElement(
+            'div',
+            null,
+            'Hello'
+          )
+        );
+      }) : _react2.default.createElement('div', null);
 
       var listSubReds = subreddits ? subreddits.map(function (subRed, idx) {
         return _react2.default.createElement(
@@ -15583,9 +15623,13 @@ var Subreddits = function (_React$Component) {
                 'div',
                 { className: 'headerLeft' },
                 _react2.default.createElement(
-                  'h1',
-                  null,
-                  subRed.data.title
+                  'a',
+                  { onClick: _this4.openPosts.bind(_this4) },
+                  _react2.default.createElement(
+                    'h1',
+                    null,
+                    subRed.data.title
+                  )
                 ),
                 _react2.default.createElement(
                   'ul',
@@ -15600,18 +15644,19 @@ var Subreddits = function (_React$Component) {
                   idx: idx,
                   title: subRed.data.title,
                   publicDescription: subRed.data.public_description,
-                  editSubreddit: _this3.editSubreddit,
+                  editSubreddit: _this4.editSubreddit,
                   ModalType: 'Edit' }),
                 _react2.default.createElement(
                   'button',
                   { onClick: function onClick() {
-                      return _this3.deleteSubreddit(idx);
+                      return _this4.deleteSubreddit(idx);
                     } },
                   'Delete'
                 )
               )
             )
-          )
+          ),
+          listPosts
         );
       }) : _react2.default.createElement('div', null);
 

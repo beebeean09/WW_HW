@@ -9,7 +9,8 @@ class Subreddits extends React.Component {
 
     this.state = {
       subreddits: null,
-      posts: null
+      posts: null,
+      showPosts: false
      };
 
     this.getSubreddits = this.getSubreddits.bind(this);
@@ -31,7 +32,7 @@ class Subreddits extends React.Component {
         const posts = subreddits.map(el => el.data.url);
         // console.log(posts);
         this.getSubredditsPosts(posts);
-        // console.log(subreddits);
+        console.log(subreddits);
         this.setState({subreddits: subreddits});
       }
     };
@@ -40,22 +41,35 @@ class Subreddits extends React.Component {
     req.send();
   }
 
+  splitPost(post) {
+    return post.split('/')[2];
+  }
+
   getSubredditsPosts(posts) {
-    posts.forEach(post => {
+    const subredditsPosts = [];
+
+    posts.forEach((post, idx) => {
       const req = new XMLHttpRequest();
       const subredditsHash = {};
-      debugger;
+
+      // debugger;
       req.onreadystatechange = () => {
         if (req.status === 200 && req.readyState === XMLHttpRequest.DONE) {
           const dataPosts = JSON.parse(req.responseText);
-          subredditsHash[post] = dataPosts.data.children;
-          console.log(subredditsHash);
+
+          const postTitle = this.splitPost(post);
+          subredditsHash[postTitle] = dataPosts.data.children;
+          subredditsPosts.push(subredditsHash);
+          // console.log(subredditsPostsHash);
         }
       };
 
       req.open('GET', `https://www.reddit.com/${post}/.json`, true);
       req.send();
     });
+    // debugger;
+    console.log(subredditsPosts);
+    this.setState({posts: subredditsPosts});
   }
 
   addSubreddit(subReddit) {
@@ -84,8 +98,27 @@ class Subreddits extends React.Component {
     this.setState({ subReddits: allSubreddits });
   }
 
+  openPosts(e) {
+    debugger;
+    e.preventDefault();
+    this.setState({showPosts: true});
+  }
+
   render() {
     const subreddits = this.state.subreddits;
+    const posts = this.state.posts;
+    const subredditsKeys = [];
+    const statusPosts = this.state.showPosts === false ? 'display: none' : 'display: block';
+
+    debugger;
+    const listPosts = (posts) ?
+    posts.map((post, idx) =>
+    <div style={{statusPosts}} key={idx}>
+      <div>
+        Hello
+      </div>
+    </div>
+  ) : <div></div>;
 
     const listSubReds = (subreddits) ?
       subreddits.map((subRed, idx) =>
@@ -93,7 +126,7 @@ class Subreddits extends React.Component {
           <div className="subredditContainer">
             <div className="header">
               <div className="headerLeft">
-                <h1>{subRed.data.title}</h1>
+                <a onClick={this.openPosts.bind(this)}><h1>{subRed.data.title}</h1></a>
                 <ul>{subRed.data.public_description}</ul>
               </div>
               <div className="headerRight">
@@ -107,8 +140,10 @@ class Subreddits extends React.Component {
               </div>
             </div>
           </div>
+          {listPosts}
         </div>
       ) : <div></div>;
+
 
     return(
       <div className="mainContainer">
