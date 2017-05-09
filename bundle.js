@@ -30786,16 +30786,18 @@ var Posts = function (_React$Component) {
       var statusPosts = this.props.statusPosts;
       // console.log(posts);
       console.log(subredditsKeys);
-      var listPosts = posts ? this.props.posts.map(function (post, idx) {
-        return _react2.default.createElement(
-          "div",
-          { className: "postContainer", style: { statusPosts: statusPosts }, key: idx },
-          _react2.default.createElement(
+      var listPosts = posts ? subredditsKeys.forEach(function (el) {
+        return posts.map(function (post, idx) {
+          return _react2.default.createElement(
             "div",
-            { className: "post" },
-            post
-          )
-        );
+            { className: "postContainer", style: { statusPosts: statusPosts }, key: idx },
+            _react2.default.createElement(
+              "div",
+              { className: "post" },
+              post.el
+            )
+          );
+        });
       }) : _react2.default.createElement("div", null);
 
       return _react2.default.createElement(
