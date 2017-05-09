@@ -15612,7 +15612,7 @@ var Subreddits = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'hide' },
-            subredditsKeys.push(subRed)
+            subredditsKeys.push(_this4.splitPost(subRed.data.url))
           ),
           _react2.default.createElement(
             'div',
@@ -30784,7 +30784,8 @@ var Posts = function (_React$Component) {
       var posts = this.props.posts;
       var subredditsKeys = this.props.subredditsKeys;
       var statusPosts = this.props.statusPosts;
-
+      // console.log(posts);
+      console.log(subredditsKeys);
       var listPosts = posts ? this.props.posts.map(function (post, idx) {
         return _react2.default.createElement(
           "div",
@@ -30792,7 +30793,7 @@ var Posts = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "post" },
-            "Temp Post"
+            post
           )
         );
       }) : _react2.default.createElement("div", null);

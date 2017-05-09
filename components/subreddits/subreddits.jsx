@@ -119,7 +119,7 @@ class Subreddits extends React.Component {
     const listSubReds = (subreddits) ?
       subreddits.map((subRed, idx) =>
         <div key={idx}>
-          <div className="hide">{subredditsKeys.push(subRed)}</div>
+          <div className="hide">{subredditsKeys.push(this.splitPost(subRed.data.url))}</div>
           <div className="subredditContainer">
             <div className="header">
               <div className="headerLeft">
