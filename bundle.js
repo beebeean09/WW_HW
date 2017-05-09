@@ -30779,13 +30779,27 @@ var Posts = function (_React$Component) {
   }
 
   _createClass(Posts, [{
+    key: "handlePosts",
+    value: function handlePosts(posts) {
+      posts.forEach(function (el) {
+        return _react2.default.createElement(
+          "div",
+          null,
+          el.data.selftext
+        );
+      });
+    }
+
+    // {this.handlePosts(post[el])}
+
+  }, {
     key: "render",
     value: function render() {
       var posts = this.props.posts;
       var subredditsKeys = this.props.subredditsKeys;
       var statusPosts = this.props.statusPosts;
       // console.log(posts);
-      console.log(subredditsKeys);
+      // console.log(subredditsKeys);
       var listPosts = posts ? subredditsKeys.forEach(function (el) {
         return posts.map(function (post, idx) {
           return _react2.default.createElement(
@@ -30794,7 +30808,7 @@ var Posts = function (_React$Component) {
             _react2.default.createElement(
               "div",
               { className: "post" },
-              post.el
+              post[el]
             )
           );
         });

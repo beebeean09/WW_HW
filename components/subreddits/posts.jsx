@@ -6,18 +6,24 @@ class Posts extends React.Component {
 
   }
 
+  handlePosts(posts) {
+    posts.forEach(el =>
+    <div>{el.data.selftext}</div>);
+  }
+
+  // {this.handlePosts(post[el])}
   render() {
     const posts = this.props.posts;
     const subredditsKeys = this.props.subredditsKeys;
     const statusPosts = this.props.statusPosts;
     // console.log(posts);
-    console.log(subredditsKeys);
+    // console.log(subredditsKeys);
     const listPosts = (posts) ?
     subredditsKeys.forEach(el =>
       posts.map((post, idx) =>
       <div className="postContainer" style={{statusPosts}} key={idx}>
-        <div className="post" >
-          {post.el}
+        <div className="post">
+          {post[el]}
         </div>
       </div>
     )
